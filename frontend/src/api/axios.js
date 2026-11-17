@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8080/api';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
 
 // In-memory access token storage (never in localStorage or sessionStorage)
 let inMemoryAccessToken = null;
@@ -65,9 +65,9 @@ apiClient.interceptors.response.use(
 
     // Do not attempt refresh on auth endpoints (login, register, refresh, logout)
     const isAuthEndpoint = originalRequest?.url?.includes('/auth/login') ||
-                           originalRequest?.url?.includes('/auth/register') ||
-                           originalRequest?.url?.includes('/auth/refresh') ||
-                           originalRequest?.url?.includes('/auth/logout');
+      originalRequest?.url?.includes('/auth/register') ||
+      originalRequest?.url?.includes('/auth/refresh') ||
+      originalRequest?.url?.includes('/auth/logout');
 
     if (error.response?.status === 401 && !originalRequest?._retry && !isAuthEndpoint) {
       if (isRefreshing) {
