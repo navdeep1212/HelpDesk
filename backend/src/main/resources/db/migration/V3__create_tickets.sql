@@ -1,0 +1,23 @@
+CREATE TABLE IF NOT EXISTS tickets (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    title VARCHAR(200) NOT NULL,
+    description TEXT NOT NULL,
+    status VARCHAR(30) NOT NULL DEFAULT 'OPEN',
+    priority VARCHAR(30) NOT NULL DEFAULT 'MEDIUM',
+    category VARCHAR(50) NOT NULL,
+    created_by_id BIGINT UNSIGNED NOT NULL,
+    assigned_to_id BIGINT UNSIGNED NULL,
+    is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
+    deleted_at DATETIME NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    resolved_at DATETIME NULL,
+    closed_at DATETIME NULL,
+    PRIMARY KEY (id),
+    KEY idx_tickets_created_by (created_by_id),
+    KEY idx_tickets_assigned_to (assigned_to_id),
+    KEY idx_tickets_status (status),
+    KEY idx_tickets_priority (priority),
+    CONSTRAINT fk_tickets_created_by FOREIGN KEY (created_by_id) REFERENCES users (id),
+    CONSTRAINT fk_tickets_assigned_to FOREIGN KEY (assigned_to_id) REFERENCES users (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

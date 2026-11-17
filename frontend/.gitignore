@@ -1,0 +1,11 @@
+.env
+.env.*
+!.env.example
+application-local.yml
+application-prod.yml
+target/
+node_modules/
+dist/
+.idea/
+.vscode/
+*.log
